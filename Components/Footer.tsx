@@ -6,11 +6,11 @@ import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
 export default function Footer() {
-  const [open, setOpen] = useState(null);
+const [open, setOpen] = useState<string | null>(null);
 
-  const toggle = (section) => {
-    setOpen(open === section ? null : section);
-  };
+const toggle = (section: string) => {
+  setOpen(open === section ? null : section);
+};
 
   return (
     <footer className="bg-[#171717] text-gray-300 pt-10">

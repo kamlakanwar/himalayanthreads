@@ -101,6 +101,7 @@ export default function CollectionsPage() {
 
           {/* Availability */}
           <div className="mb-6">
+
             <div
               onClick={() =>
                 setOpenAvailability(!openAvailability)
@@ -113,7 +114,9 @@ export default function CollectionsPage() {
 
               <FiChevronDown
                 className={`text-lg transition-transform ${
-                  openAvailability ? "rotate-180" : ""
+                  openAvailability
+                    ? "rotate-180"
+                    : ""
                 }`}
               />
             </div>
@@ -207,7 +210,6 @@ export default function CollectionsPage() {
               img={item.img}
               title={item.title}
               price={item.price}
-              oldPrice={item.oldPrice}
             />
           ))}
 

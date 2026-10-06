@@ -209,7 +209,7 @@ export default function CollectionsPage() {
               id={item.id}
               img={item.img}
               title={item.title}
-              price={item.price}
+              price={Number(item.price)}
             />
           ))}
 

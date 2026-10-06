@@ -12,7 +12,7 @@ type Props = {
   img: string;
   title: string;
   price: string;
-  oldPrice: string;
+  oldPrice?: string;
 };
 
 export default function ProductCard({
@@ -22,8 +22,8 @@ export default function ProductCard({
   price,
   oldPrice,
 }: Props) {
-
   const [isOpen, setIsOpen] = useState(false);
+
   const {
     addToWishlist,
     removeFromWishlist,
@@ -32,7 +32,6 @@ export default function ProductCard({
 
   const inWishlist = isInWishlist(String(id));
 
-  // 🔥 Cart logic directly here
   const {
     cart,
     addToCart,
@@ -59,9 +58,12 @@ export default function ProductCard({
     }
   };
 
-  // 🔥 Disable background scroll
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isOpen]);
 
   return (
@@ -87,10 +89,9 @@ export default function ProductCard({
                   ? removeFromWishlist(String(id))
                   : addToWishlist(product)
               }
-              className={`bg-white p-2 rounded-full cursor-pointer
-              hover:bg-gray-100
-                ${inWishlist ? "text-(--color-red)" : ""}
-             `}
+              className={`bg-white p-2 rounded-full cursor-pointer hover:bg-gray-100 ${
+                inWishlist ? "text-(--color-red)" : ""
+              }`}
             >
               <FiHeart size={16} />
             </button>
@@ -119,31 +120,30 @@ export default function ProductCard({
 
           <div>
 
+            {/* PRICE */}
             <div className="space-x-2 mt-2">
               <span className="font-semibold">
                 Rs. {price}
               </span>
 
-              <span className="text-gray-400 line-through text-sm">
-                Rs. {oldPrice}
-              </span>
+              {oldPrice && (
+                <span className="text-gray-400 line-through text-sm">
+                  Rs. {oldPrice}
+                </span>
+              )}
             </div>
 
-            {/* 🔥 CART BUTTON LOGIC HERE */}
+            {/* CART BUTTON */}
             <div className="mt-3 w-full">
 
               {quantity === 0 ? (
-
                 <button
-                  onClick={
-                    () => addToCart(product)}
+                  onClick={() => addToCart(product)}
                   className="w-full bg-(--color-red) hover:bg-red-700 transition text-white py-3 text-sm font-semibold rounded-md"
                 >
                   ADD TO CART
                 </button>
-
               ) : (
-
                 <div className="flex items-center justify-between bg-red-600 text-white px-4 py-2 rounded-md">
 
                   <button
@@ -165,7 +165,6 @@ export default function ProductCard({
                   </button>
 
                 </div>
-
               )}
 
             </div>
@@ -211,30 +210,38 @@ export default function ProductCard({
               Rs. {price}
             </p>
 
-            {/* 🔥 SAME CART LOGIC IN MODAL */}
+            {/* CART IN MODAL */}
             <div className="mt-4">
 
               {quantity === 0 ? (
-
                 <button
                   onClick={() => addToCart(product)}
                   className="w-full bg-red-600 hover:bg-red-700 transition text-white py-3 text-sm font-semibold rounded-md"
                 >
                   ADD TO CART
                 </button>
-
               ) : (
-
                 <div className="flex items-center justify-between bg-red-600 text-white px-4 py-2 rounded-md">
 
-                  <button onClick={handleDecrease}>−</button>
+                  <button
+                    onClick={handleDecrease}
+                    className="text-lg font-bold px-2"
+                  >
+                    −
+                  </button>
 
-                  <span>{quantity}</span>
+                  <span>
+                    {quantity}
+                  </span>
 
-                  <button onClick={() => increaseQty(id)}>+</button>
+                  <button
+                    onClick={() => increaseQty(String(id))}
+                    className="text-lg font-bold px-2"
+                  >
+                    +
+                  </button>
 
                 </div>
-
               )}
 
             </div>

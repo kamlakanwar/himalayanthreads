@@ -6,10 +6,11 @@ import Image from "next/image";
 import { FiChevronDown } from "react-icons/fi";
 import ProductCard from "@/Components/ProductCard";
 
+type Category = keyof typeof products;
+
 export default function CollectionsPage() {
   const [mounted, setMounted] = useState(false);
-
-  const [active, setActive] = useState("cap");
+  const [active, setActive] = useState<Category>("cap");
 
   const [openAvailability, setOpenAvailability] = useState(true);
   const [openPrice, setOpenPrice] = useState(true);
@@ -20,13 +21,36 @@ export default function CollectionsPage() {
 
   if (!mounted) return null;
 
-  // ✅ Categories
-  const categories = [
-    { id: "cap", name: "Himachali Caps", img: "/images/cap.png" },
-    { id: "stoles", name: "Stoles", img: "/images/stole.png" },
-    { id: "kalgi", name: "Kalgi", img: "/images/kalgi.png" },
-    { id: "jewelry", name: "Jewelry", img: "/images/jewelry.png" },
-    { id: "mufflers", name: "Mufflers", img: "/images/muffler.png" },
+  const categories: {
+    id: Category;
+    name: string;
+    img: string;
+  }[] = [
+    {
+      id: "cap",
+      name: "Himachali Caps",
+      img: "/images/cap.png",
+    },
+    {
+      id: "stoles",
+      name: "Stoles",
+      img: "/images/stole.png",
+    },
+    {
+      id: "kalgi",
+      name: "Kalgi",
+      img: "/images/kalgi.png",
+    },
+    {
+      id: "jewelry",
+      name: "Jewelry",
+      img: "/images/jewelry.png",
+    },
+    {
+      id: "mufflers",
+      name: "Mufflers",
+      img: "/images/muffler.png",
+    },
   ];
 
   return (
@@ -77,7 +101,6 @@ export default function CollectionsPage() {
 
           {/* Availability */}
           <div className="mb-6">
-
             <div
               onClick={() =>
                 setOpenAvailability(!openAvailability)
@@ -90,9 +113,7 @@ export default function CollectionsPage() {
 
               <FiChevronDown
                 className={`text-lg transition-transform ${
-                  openAvailability
-                    ? "rotate-180"
-                    : ""
+                  openAvailability ? "rotate-180" : ""
                 }`}
               />
             </div>
@@ -179,10 +200,10 @@ export default function CollectionsPage() {
         {/* ================= PRODUCTS ================= */}
         <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-6">
 
-          {(products[active] || []).map((item: any) => (
+          {products[active].map((item) => (
             <ProductCard
               key={item.id}
-              id={item.id}   // ✅ VERY IMPORTANT FIX
+              id={item.id}
               img={item.img}
               title={item.title}
               price={item.price}
